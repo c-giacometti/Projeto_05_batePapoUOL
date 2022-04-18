@@ -25,6 +25,7 @@ function tratarErro(erro){
 function carregarChat(resposta){
     const mensagens = resposta.data;
     const qntMensagens = mensagens.length;
+    chat.innerHTML = "";
     for(let i = 0; i < qntMensagens; i++){
         if(mensagens[i].type === "status"){
             chat.innerHTML += `<div class="mensagem status">
@@ -42,7 +43,8 @@ function carregarChat(resposta){
                                 <span class="user">${mensagens[i].to}<span class="text">:</span></span>
                                 <span class="text">${mensagens[i].text}</span>
                             </div>`
-            } else {
+            } 
+            if(mensagens[i].type === "private_message") {
                 if(mensagens[i].to === nome){
                     chat.innerHTML += `<div class="mensagem msgReservada">
                                 <span class="time">(${mensagens[i].time})</span>
@@ -58,4 +60,25 @@ function carregarChat(resposta){
     const todasAsMensagens = document.querySelectorAll('.mensagem')
     const elementoQueQueroQueApareca = todasAsMensagens[todasAsMensagens.length-1];
     elementoQueQueroQueApareca.scrollIntoView();
+}
+
+function enviarMensagem(click){
+    const input = click.parentNode.querySelector("input");
+    const mensagem = input.value;
+    const dados = {
+        from: nome,
+	    to: "Todos",
+	    text: mensagem,
+	    type: "message"
+    };
+    input.value = "";
+    console.log(dados);
+    const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', dados);
+    requisicao.then(tratarSucesso);
+    requisicao.catch(reload);
+}
+
+function reload(){
+    alert("Você saiu da sala");
+    window.location.reload();
 }
