@@ -11,7 +11,6 @@ function entrada(){
 }
 
 function tratarSucesso(resposta){
-    console.log(resposta); //lembrar de tirar
     const promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promise.then(carregarChat);
 }
@@ -26,10 +25,9 @@ function tratarErro(erro){
 function carregarChat(resposta){
     const mensagens = resposta.data;
     const qntMensagens = mensagens.length;
-    console.log(mensagens);
     for(let i = 0; i < qntMensagens; i++){
         if(mensagens[i].type === "status"){
-            chat.innerHTML += `<div class="status">
+            chat.innerHTML += `<div class="mensagem status">
                                 <span class="time">(${mensagens[i].time})</span>
                                 <span class="user">${mensagens[i].from}</span>
                                 <span class="text">${mensagens[i].text}</span>
@@ -37,7 +35,7 @@ function carregarChat(resposta){
         }
         if(mensagens[i].type === "message"){
             if(mensagens[i].to === "Todos"){
-                chat.innerHTML += `<div class="msgTodos">
+                chat.innerHTML += `<div class="mensagem msgTodos">
                                 <span class="time">(${mensagens[i].time})</span>
                                 <span class="user">${mensagens[i].from}</span>
                                 <span class="text">para</span>
@@ -45,14 +43,19 @@ function carregarChat(resposta){
                                 <span class="text">${mensagens[i].text}</span>
                             </div>`
             } else {
-                chat.innerHTML += `<div class="msgReservada">
+                if(mensagens[i].to === nome){
+                    chat.innerHTML += `<div class="mensagem msgReservada">
                                 <span class="time">(${mensagens[i].time})</span>
                                 <span class="user">${mensagens[i].from}</span>
                                 <span class="text">reservadamente para</span>
                                 <span class="user">${mensagens[i].to}<span class="text">:</span></span>
                                 <span class="text">${mensagens[i].text}</span>
                             </div>`
+                }
             }
         }
     }
+    const todasAsMensagens = document.querySelectorAll('.mensagem')
+    const elementoQueQueroQueApareca = todasAsMensagens[todasAsMensagens.length-1];
+    elementoQueQueroQueApareca.scrollIntoView();
 }
