@@ -64,7 +64,6 @@ img {
 
 .bottom input {
     font-weight: 400;
-    font-style: italic;
     font-size: 18px;
     color: black;
     border: none;
@@ -73,6 +72,7 @@ img {
 
 input::placeholder {
     color: black;
+    font-style: italic;
 }
 
 .chat div {
@@ -87,7 +87,7 @@ input::placeholder {
 }
 
 .msgTodos {
-    background-color: white;
+    background-color: #FFFFFF;
 }
 
 .msgReservada {

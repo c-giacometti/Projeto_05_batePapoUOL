@@ -17,21 +17,24 @@ function entrada(){
 function tratarSucesso(resposta){
     const promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promise.then(carregarChat);
+    promise.catch(reload);
     sucesso++;
     intervalos(); //chama as funções setInterval
 }
 
 //caso o nome seja repetido, pede para que entre outro
 function tratarErro(erro){
-    nome = prompt("Esse nome já está em uso. Por favor, escolha outro nome:");
-    entrada();
+    if(erro.response.status === 400){
+        nome = prompt("Esse nome já está em uso. Por favor, escolha outro nome:");
+        entrada();
+    }
 }
 
 //chama funções para atualizar chat e atualizar presença
 function intervalos(){
     if(sucesso == 1){
-        const pararChat = setInterval(tratarSucesso, 3000);
-        const pararOnline = setInterval(atualizarOnline, 5000);
+        setInterval(tratarSucesso, 3000);
+        setInterval(atualizarOnline, 5000);
     }
 }
 
@@ -39,6 +42,7 @@ function intervalos(){
 function atualizarOnline(){
     const dados = {name: nome};
     const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', dados);
+    requisicao.catch(reload);
 } 
 
 //carrega chat
@@ -102,5 +106,6 @@ function enviarMensagem(click){
 
 //caso haja erro no envio da mensagem, recarrega a pagina
 function reload(){
+    alert("Ocorreu um erro");
     window.location.reload();
 }
