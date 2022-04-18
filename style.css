@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    width: 375px;
+    width: 100%;
 }
 
 body {
@@ -37,6 +37,7 @@ img {
     font-family: 'Roboto';
     background-color: #F3F3F3;
     margin: 80px 0px 80px 0px;
+    padding: 20px 0px 5px 0px;
 }
 
 .bottom {
@@ -82,11 +83,11 @@ input::placeholder {
 }
 
 .status {
-    background-color: white;
+    background-color: #DCDCDC;
 }
 
 .msgTodos {
-    background-color: #DCDCDC;
+    background-color: white;
 }
 
 .msgReservada {
@@ -100,4 +101,8 @@ input::placeholder {
 
 .user {
     font-weight: 700;
+}
+
+.text {
+    font-weight: 500;
 }
